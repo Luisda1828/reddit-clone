@@ -6,10 +6,10 @@
     <title>Document</title>
     @vite('resources/css/app.css')
 </head>
-<body class="bg-[#0e1113] text-white " >
+<body class="bg-[#0e1113] text-white px-4" >
 
 <header class="flex justify-between py-4 fixed top-0 bg-[#0e1113] z-30 w-full border-0 border-b-[.0625rem] border-solid border-b-white border-opacity-10">
-        <a href="{{ route('posts.index') }}" class="flex gap-1 items-center ml-4">
+        <div class="flex gap-1 items-center ml-4">
             <span class="size-12">
                 <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="SVGRepo_bgCarrier" stroke-width="0" />
@@ -20,8 +20,8 @@
                     </g>4 18.8815 14 18.194 14 17.3459C14 16.4978 13.3284 15.8103 12.5 15.8103C11.6716 15.8103 11 16.4978 11 17.3459C11 18.194 11.6716 18.8815 12.5 18.8815ZM19.5 18.8815C20.3284 18.8815 21 18.194 21 17.3459C21 16.4978 20.3284 15.8103 19.5 15.8103C18.6716 15.8103 18 16.4978 18 17.3459C18 18.194 18.6716 18.8815 19.5 18.8815ZM12.7773 20.503C12.5476 20.3462 12.2372 20.4097 12.084 20.6449C11.9308 20.8802 11.9929 21.198 12.2226 21.3548C13.3107 22.0973 14.6554 22.4686 16 22.4686C17.3446 22.4686 18.6893 22.0973 19.7773 21.3548C20.0071 21.198 20.0692 20.8802 19.916 20.6449C19.7628 20.4097 19.4524 20.3462 19.2226 20.503C18.3025 21.1309 17.1513 21.4449 16 21.4449C15.3173 21.4449 14.6345 21.3345 14 21.1137C13.5646 20.9621 13.1518 20.7585 12.7773 20.503Z" fill="white"/> </g>
                 </svg>
             </span>
-            <span class="text-[1.5rem] font-bold  ">Golddit</span>
-            </a>
+            <span class="text-[1.5rem] font-bold ">Golddit</span>
+        </div>
 
         <span class="hidden sm:flex px-4 gap-2 relative bg-[#2a3236] rounded-full w-[33%]">
             <button>
@@ -29,7 +29,7 @@
                     <path d="M19.5 18.616 14.985 14.1a8.528 8.528 0 1 0-.884.884l4.515 4.515.884-.884ZM1.301 8.553a7.253 7.253 0 1 1 7.252 7.253 7.261 7.261 0 0 1-7.252-7.253Z"></path>
                 </svg>
             </button>
-            <input class="bg-transparent border-none focus:outline-none" type="text" name="q" placeholder="Search Golddit">
+            <input class="bg-transparent border-none focus:outline-none w-full" type="text" name="q" placeholder="Search Golddit">
         </span>
 
         <span class="flex gap-2 mr-10 relative items-center px-4 py-2 hover:bg-[#2a3236] duration-200 rounded-full">
@@ -42,12 +42,14 @@
     </header>
 <section class="flex flex-col m-auto max-w-[800px] justify-center items-center mt-40 ">
 
-    <form class="w-full " action="{{ route('posts.store') }}" method="POST">
+    <form class="w-full " action="{{ route('posts.update', $data->id) }}" method="POST">
             @csrf
+            @method('PUT')
+            <input type="hidden" name="id" value="{{$data->id}}">
             <div>
             <div class="mt-2 mb-2">
                     <div>
-                    <label for="first_name" class="block mb-2 text-sm font-medium text-white dark:text-white">Create Post</label>
+                    <label for="first_name" class="block mb-2 text-sm font-medium text-white dark:text-white">Update Post</label>
                        
                     </div>
                 </div>
@@ -55,19 +57,21 @@
                 <div class="mt-2 mb-2">
                     <div>
                         <label for="first_name" class="block mb-2 text-sm font-medium text-white dark:text-white">Title</label>
-                        <textarea id="myTextarea" class="ring-[.0625rem] ring-white ring-opacity-10 rounded-2xl px-3 py-1 text-white resize-none overflow-hidden w-full bg-transparent " name="title" maxlength="300"></textarea> 
+                        <textarea id="myTextarea" class="ring-[.0625rem] ring-white ring-opacity-10 rounded-2xl px-3 py-1 text-white resize-none overflow-hidden w-full bg-transparent " name="title" maxlength="300" >{{$data->title}}</textarea> 
                     </div>
                 </div>
                 <div class="mt-2 mb-2">
                     <div>
                         <label for="first_name" class="block mb-2 text-sm font-medium text-white dark:text-white">Content</label>
-                        <textarea id="myTextarea" class="ring-[.0625rem] ring-white ring-opacity-10 rounded-2xl px-3 py-1 h-52 text-white resize-none overflow-hidden w-full bg-transparent " name="content" maxlength="300"></textarea>
+                        <textarea id="myTextarea" class="ring-[.0625rem] ring-white ring-opacity-10 rounded-2xl px-3 py-1 text-white resize-none overflow-hidden w-full h-52 bg-transparent " name="content" maxlength="300">{{$data->content}}</textarea>
                              
                     </div>
                 </div>
                 <div class="flex justify-end">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ">Post</button>
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ">Update</button>
                 </div>
+                
+                
             </div>
         </form>
 </section>

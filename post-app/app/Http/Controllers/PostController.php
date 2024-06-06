@@ -28,7 +28,7 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,)
     {
         //
         Post::create([
@@ -37,36 +37,55 @@ class PostController extends Controller
         ]);
         return redirect()->route('posts.index');
     }
+    
 
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(String $id)
     {
         //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
-    {
-        //
+        $data = Post::find($id);
+        return view('post.edit', compact('data'));
+        
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
-    {
-        //
+
+     public function edit(String $id)
+     {
+         //
+
+         $data = Post::find($id);
+         $data->delete();
+         return redirect()->route('posts.index');
+     }
+
+
+    public function update(Request $request)
+    {  
+        $data = Post::find($request->id);
+        if($data){
+         $data->update([
+             
+             'title' => $request->title,
+             'content' => $request->content
+             
+         ]);
+        }
+        return redirect()->route('posts.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(String $id)
     {
         //
-    }
+        $data = Post::find($id);
+        $data->delete();
+        return redirect()->route('posts.index');
+    } 
 }

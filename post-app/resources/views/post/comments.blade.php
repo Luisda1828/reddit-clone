@@ -9,7 +9,7 @@
 
 <body class="bg-[#0e1113] text-white " >
 
-<header class="flex justify-between py-2 fixed top-0 bg-[#0e1113] z-30 w-full border-0 border-b-[.0625rem] border-solid border-b-white border-opacity-10">
+    <header class="flex justify-between py-4 fixed top-0 bg-[#0e1113] z-30 w-full border-0 border-b-[.0625rem] border-solid border-b-white border-opacity-10">
         <a href="{{ route('posts.index') }}" class="flex gap-1 items-center ml-4">
             <span class="size-12">
                 <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,7 +24,7 @@
             <span class="text-[1.5rem] font-bold  ">Golddit</span>
             </a>
 
-        <span class="hidden sm:flex px-4 py-2 gap-2 relative bg-[#2a3236] rounded-full w-[33%]">
+        <span class="hidden sm:flex px-4 gap-2 relative bg-[#2a3236] rounded-full w-[33%]">
             <button>
                 <svg class="" rpl="" aria-hidden="true" fill="currentColor" height="16" icon-name="search-outline" viewBox="0 0 20 20" width="16" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19.5 18.616 14.985 14.1a8.528 8.528 0 1 0-.884.884l4.515 4.515.884-.884ZM1.301 8.553a7.253 7.253 0 1 1 7.252 7.253 7.261 7.261 0 0 1-7.252-7.253Z"></path>
@@ -44,24 +44,24 @@
     
     
 <section class="flex flex-col m-auto max-w-[1040px] justify-center items-center mt-20 ">
-@foreach ($data as $result)      
-                    <div href="" class="flex flex-col  rounded-xl hover:bg-[#181c1f] duration-150 w-full p-2 mt-4 relative" >
-                    <a slot="full-post-link" class="absolute inset-0" href="{{ route('comments.show',$result->id) }}" ></a>
+      
+                    <div href="" class="flex flex-col  rounded-xl  w-full p-2 mt-4 relative" >
+                  
                         <div class="flex justify-between items-center">
                             <div class="flex gap-1 items-center mb-4">
                                 <img class="size-6 rounded-2xl" src="https://xsgames.co/randomusers/assets/avatars/pixel/18.jpg">
                                 <span class="text-[#b7cad4] text-[.75rem] font-semibold text" >RandomUser</span>
                             </div> 
-                            <button class="group z-10 relative"> <svg rpl="" fill="currentColor" height="16" icon-name="overflow-horizontal-fill" viewBox="0 0 20 20" width="16" xmlns="http://www.w3.org/2000/svg"> 
+                        <button class="group z-10 relative"> <svg rpl="" fill="currentColor" height="16" icon-name="overflow-horizontal-fill" viewBox="0 0 20 20" width="16" xmlns="http://www.w3.org/2000/svg"> 
                             <path d="M6 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm6 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"></path> </svg>
                             <div class=" absolute rounded-xl opacity-0  group-focus:opacity-100 duration-200 bg-[#181c1f] shadow-sm shadow-black  right-[2rem] p-4 ">
-                                <a  href="{{ route('posts.edit',$result->id) }}" class="hover:text-red-600  duration-150">Delate</a>
-                                <a href="{{ route('posts.show',$result->id) }}" class="hover:text-blue-600" duration-150>Edit</a>
+                                
+                                
                             </div>
                         </button>   
                         </div>
-                        <span class="font-semibold mb-4 text-[#eef1f3] text-[1.125rem]  ">{{ $result->title }}</span>
-                        <span class="text-[#b7cad4] text-[.875rem] font-semibold line-clamp-6 " >{{ $result->content }}</span>
+                        <span class="font-semibold mb-4 text-[#eef1f3] text-[1.125rem]  ">{{ $post->title }}</span>
+                        <span class="text-[#b7cad4] text-[.875rem] font-semibold line-clamp-6 " >{{ $post->content }}</span>
 
                         <div class="flex gap-4 items-center mt-2  ">
                             <span class="flex bg-[#2a3236] rounded-2xl px-4 py-2 gap-2 h-8 ">
@@ -79,9 +79,70 @@
                         </div>
 
                     </div>
-                    <!-- <hr class=" border-[0.1] w-full border-[#F6F8F9] "> -->
-                    <hr class="border-0 border-b-[.0625rem] border-solid border-b-white w-full opacity-10">
-            @endforeach 
+                   
+                    <section class="flex flex-col w-full">
+                        <form class="ring-[.0625rem] mt-8 ring-white ring-opacity-10 rounded-2xl  h-12 w-full " action="{{ route('comments.store', $post->id) }}" method="POST">
+                                @csrf
+                                @method('POST')
+                
+                                    <textarea id="myTextarea" class="  ring-opacity-10 rounded-2xl   text-white resize-none overflow-hidden w-full bg-transparent h-12 " name="content" maxlength="300">
+                                    </textarea>
+                                    <input class="hidden" type="text" name="post_id"  value="{{$post->id}}">
+                                    <div class="flex justify-end">
+                                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ">Commet</button>
+                                    </div>
+                        </form>
+
+                    </section>
+                      
+                    @foreach ($comments as $comment)
+                    <div href="" class="flex flex-col  rounded-xl w-full p-2 mt-12 relative " >
+                  
+                        <div class="flex justify-between items-center">
+                            <div class="flex gap-1 items-center mb-4">
+                                <img class="size-6 rounded-2xl" src="https://xsgames.co/randomusers/assets/avatars/pixel/18.jpg">
+                                <span class="text-[#b7cad4] text-[.75rem] font-semibold text" >RandomUser</span>
+                            </div> 
+                        
+                        </div>
+                        <span class="text-[#b7cad4] text-[.875rem] font-semibold line-clamp-6 ml-4 " >{{ $comment->content }}</span>
+                       
+                        <div class="flex gap-4 items-center mt-2  ">
+                            <span class="flex bg-[#2a3236] rounded-2xl px-4 py-2 gap-2 h-8 ">
+                                <button  >
+                                <svg rpl="" fill="currentColor" height="16" icon-name="upvote-outline" viewBox="0 0 20 20" width="16" xmlns="http://www.w3.org/2000/svg"> <!--?lit$726575058$--><!--?lit$726575058$--><path d="M12.877 19H7.123A1.125 1.125 0 0 1 6 17.877V11H2.126a1.114 1.114 0 0 1-1.007-.7 1.249 1.249 0 0 1 .171-1.343L9.166.368a1.128 1.128 0 0 1 1.668.004l7.872 8.581a1.25 1.25 0 0 1 .176 1.348 1.113 1.113 0 0 1-1.005.7H14v6.877A1.125 1.125 0 0 1 12.877 19ZM7.25 17.75h5.5v-8h4.934L10 1.31 2.258 9.75H7.25v8ZM2.227 9.784l-.012.016c.01-.006.014-.01.012-.016Z"></path><!--?--> </svg>
+                                </button>
+                                <button class="rotate-180">
+                                <svg rpl="" fill="currentColor" height="16" icon-name="upvote-outline" viewBox="0 0 20 20" width="16" xmlns="http://www.w3.org/2000/svg"> <!--?lit$726575058$--><!--?lit$726575058$--><path d="M12.877 19H7.123A1.125 1.125 0 0 1 6 17.877V11H2.126a1.114 1.114 0 0 1-1.007-.7 1.249 1.249 0 0 1 .171-1.343L9.166.368a1.128 1.128 0 0 1 1.668.004l7.872 8.581a1.25 1.25 0 0 1 .176 1.348 1.113 1.113 0 0 1-1.005.7H14v6.877A1.125 1.125 0 0 1 12.877 19ZM7.25 17.75h5.5v-8h4.934L10 1.31 2.258 9.75H7.25v8ZM2.227 9.784l-.012.016c.01-.006.014-.01.012-.016Z"></path><!--?--> </svg>
+                                </button>
+                            </span>
+                            <a class="flex bg-[#2a3236] items-center gap-1 rounded-2xl px-4 py-2 h-8" href="">
+                            <svg rpl="" aria-hidden="true" class="icon-comment" fill="currentColor" height="20" icon-name="comment-outline" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"> <!--?lit$726575058$--><!--?lit$726575058$--><path d="M7.725 19.872a.718.718 0 0 1-.607-.328.725.725 0 0 1-.118-.397V16H3.625A2.63 2.63 0 0 1 1 13.375v-9.75A2.629 2.629 0 0 1 3.625 1h12.75A2.63 2.63 0 0 1 19 3.625v9.75A2.63 2.63 0 0 1 16.375 16h-4.161l-4 3.681a.725.725 0 0 1-.489.191ZM3.625 2.25A1.377 1.377 0 0 0 2.25 3.625v9.75a1.377 1.377 0 0 0 1.375 1.375h4a.625.625 0 0 1 .625.625v2.575l3.3-3.035a.628.628 0 0 1 .424-.165h4.4a1.377 1.377 0 0 0 1.375-1.375v-9.75a1.377 1.377 0 0 0-1.374-1.375H3.625Z"></path><!--?--> </svg>
+                           <span >0</span>
+                            </a>
+
+                                <div class="group z-10 relative">
+                                    <button class="focus:outline-none">
+                                        <svg rpl="" fill="currentColor" height="16" icon-name="overflow-horizontal-fill" viewBox="0 0 20 20" width="16" xmlns="http://www.w3.org/2000/svg"> 
+                                            <path d="M6 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm6 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"></path>
+                                        </svg>
+                                    </button>
+                                    <div class="absolute  rounded-xl opacity-0 group-focus-within:opacity-100 duration-200 bg-[#181c1f] shadow-sm shadow-black right-[0rem] top-10 p-4">
+                                        <form action="{{ route('comments.destroy', $post->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                            <button class="" type="submit" class="text-white">delete</button>
+                                            <input class="hidden" type="" name="comment_id" value="{{$comment->id}}">
+                                            <input class="hidden" type="" name="_id" value="{{$post->id}}">
+                                        </form>
+                                    </div>
+                                </div>
+                        </div>
+
+                    </div>
+
+                    @endforeach
+                    
             </section>
 </body>
 </html>
